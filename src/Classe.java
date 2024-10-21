@@ -5,6 +5,7 @@ import java.util.List;
 public class Classe {
     List<String> atributos;
     List<Method> metodos;
+    String nome;
 
     public Classe(String classe) {
         this.atributos = RegexUtil.extractVars(classe);
@@ -12,5 +13,12 @@ public class Classe {
         for (String method : methods) {
             this.metodos.add(new Method(method));
         }
+    }
+
+    public String getNome() {
+        return nome;
+    }
+    public List<String> getAtributos() {
+        return  atributos;
     }
 }

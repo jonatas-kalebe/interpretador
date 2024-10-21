@@ -1,11 +1,8 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class Storage {
     private static Stack<String> pilha= new Stack<>();
-    private static Map<String,String> valoresDaPilha;
+    private static Map<String,String> valoresDaPilha=new HashMap<>();
     private static List<Objeto> objetos=new ArrayList<>();
     private static int contadorInstrucoes=0;
 
@@ -29,9 +26,14 @@ public class Storage {
     }
 
     public static String getInstruction(){
-        String instrucao= pilha.pop();
-        String valor=valoresDaPilha.get(instrucao);
-        return valor;
+        try {
+            String instrucao= pilha.pop();
+            return instrucao;
+        } catch (Exception e) {
+            return "";
+        }
+
+
     }
 
     public static void addObjeto(Objeto o){
@@ -39,7 +41,7 @@ public class Storage {
     }
 
     public static void garbageCollector(){
-        objetos.add(new Objeto());
+        //objetos.remove(new Objeto(null,null));
     }
 
 

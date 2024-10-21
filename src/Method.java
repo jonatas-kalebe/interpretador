@@ -3,9 +3,9 @@ import Util.RegexUtil;
 import java.util.List;
 
 public class Method {
-    private  String name;
-    private  String instruction;
-    private  List<String> atributos;
+    private final String name;
+    private final String instruction;
+    private final List<String> atributos;
 
 
 

@@ -1,5 +1,3 @@
-import java.util.List;
-
 public class BoolInterpreter {
     public static void main(String[] args) {
         String instruction= """
@@ -33,7 +31,8 @@ public class BoolInterpreter {
             pop
             end""";
         Main mainMethod=new Main(instruction);
-        mainMethod.process();
+        mainMethod.processBlockCode();
+        mainMethod.interpret();
 
 
     }
