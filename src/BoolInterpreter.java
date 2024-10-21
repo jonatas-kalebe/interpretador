@@ -32,10 +32,9 @@ public class BoolInterpreter {
             call calc
             pop
             end""";
-        List<String> instrucoes=List.of(instruction.split("\n"));
-        for (String instrucao: instrucoes){
-            Storage.addInstruction(instrucao);
-        }
+        Main mainMethod=new Main(instruction);
+        mainMethod.process();
+
 
     }
 
