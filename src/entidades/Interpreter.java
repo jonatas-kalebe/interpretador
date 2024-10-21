@@ -6,31 +6,43 @@ public class Interpreter {
     private final Program program;
     private final Deque<Integer> stack;
     private final Map<String, Object> globalVars;
-    private final Map<Integer, Objeto> heap;
     private final Deque<Frame> callStack;
     private int instructionCounter;
     private boolean gcColor; // true for black, false for red
+
+    // Built-in 'io' object
+    private final Objeto ioObject;
+    private final ObjetoManager objetoManager;
 
     public Interpreter(Program program) {
         this.program = program;
         this.stack = new ArrayDeque<>();
         this.globalVars = new HashMap<>();
-        this.heap = new HashMap<>();
         this.callStack = new ArrayDeque<>();
         this.instructionCounter = 0;
         this.gcColor = true; // Start with black
+
+        this.objetoManager = ObjetoManager.getInstance();
+
+        // Initialize built-in 'io' object
+        Classe ioClasse = new Classe("io");
+        this.ioObject = new Objeto(ioClasse);
+        objetoManager.addObjeto(ioObject);
     }
 
     public void execute() {
-        // Inicializar variáveis globais
+        // Initialize global variables
         for (String var : program.getMainVars()) {
             globalVars.put(var, 0);
         }
 
-        // Executar instruções do main
+        // Add 'io' object to global scope
+        globalVars.put("io", ioObject.getId());
+
+        // Execute main instructions
         executeInstructions(program.getMainInstructions(), globalVars, null);
 
-        // Programa finalizado
+        // Program finished
     }
 
     private void executeInstructions(List<String> instructions, Map<String, Object> vars, Objeto self) {
@@ -82,9 +94,10 @@ public class Interpreter {
                     handleSet(parts);
                     break;
                 case "call":
-                    handleCall(parts, vars);
+                    handleCall(parts, vars, self);
                     break;
                 case "ret":
+                    // O valor de retorno já está na pilha
                     return;
                 case "pop":
                     handlePop();
@@ -92,9 +105,19 @@ public class Interpreter {
                 case "if":
                     i = handleIf(parts, instructions, i);
                     continue;
+                case "else":
+                    i = handleElse(parts, instructions, i);
+                    continue;
+                case "eq":
+                case "ne":
+                case "gt":
+                case "ge":
+                case "lt":
+                case "le":
+                    handleComparison(opcode);
+                    break;
                 default:
                     System.err.println("Instrução desconhecida: " + opcode);
-                    System.exit(1);
             }
             i++;
         }
@@ -108,18 +131,60 @@ public class Interpreter {
 
     private void handleLoad(String[] parts, Map<String, Object> vars, Objeto self) {
         String name = parts[1];
-        if (name.equals("self")) {
+        if (name.contains(".")) {
+            // Acesso a atributo de um objeto
+            String[] objAttr = name.split("\\.");
+            String objName = objAttr[0];
+            String attrName = objAttr[1];
+
+            int objId;
+            if (objName.equals("self")) {
+                if (self == null) {
+                    System.err.println("Variável 'self' não definida.");
+                    System.exit(1);
+                    return;
+                }
+                objId = self.getId();
+            } else if (vars.containsKey(objName)) {
+                objId = (Integer) vars.get(objName);
+            } else {
+                System.err.println("Objeto não definido: " + objName);
+                System.exit(1);
+                return;
+            }
+
+            Objeto obj = objetoManager.getObjeto(objId);
+            if (obj == null) {
+                System.err.println("Objeto não encontrado: " + objId);
+                System.exit(1);
+                return;
+            }
+
+            Object value = obj.getAttribute(attrName);
+            if (value instanceof Integer) {
+                stack.push((Integer) value);
+            } else if (value instanceof Objeto) {
+                stack.push(((Objeto) value).getId());
+            } else {
+                System.err.println("Atributo não encontrado: " + attrName);
+                System.exit(1);
+            }
+        } else if (name.equals("self")) {
+            if (self == null) {
+                System.err.println("Variável 'self' não definida.");
+                System.exit(1);
+                return;
+            }
             stack.push(self.getId());
         } else if (vars.containsKey(name)) {
             Object value = vars.get(name);
             if (value instanceof Integer) {
                 stack.push((Integer) value);
             } else {
-                stack.push(((Objeto) value).getId());
+                stack.push((Integer) value);
             }
         } else {
             System.err.println("Variável não definida: " + name);
-            System.exit(1);
         }
     }
 
@@ -161,14 +226,14 @@ public class Interpreter {
             System.exit(1);
         }
         Objeto obj = new Objeto(classe);
-        heap.put(obj.getId(), obj);
+        objetoManager.addObjeto(obj);
         stack.push(obj.getId());
     }
 
     private void handleGet(String[] parts) {
         String attrName = parts[1];
         int objId = stack.pop();
-        Objeto obj = heap.get(objId);
+        Objeto obj = objetoManager.getObjeto(objId);
         if (obj == null) {
             System.err.println("Objeto não encontrado: " + objId);
             System.exit(1);
@@ -188,18 +253,29 @@ public class Interpreter {
         String attrName = parts[1];
         int objId = stack.pop();
         int value = stack.pop();
-        Objeto obj = heap.get(objId);
+        Objeto obj = objetoManager.getObjeto(objId);
         if (obj == null) {
             System.err.println("Objeto não encontrado: " + objId);
             System.exit(1);
+            return;
         }
         obj.setAttribute(attrName, value);
     }
 
-    private void handleCall(String[] parts, Map<String, Object> vars) {
+    private void handleCall(String[] parts, Map<String, Object> vars, Objeto self) {
         String methodName = parts[1];
         int objId = stack.pop();
-        Objeto obj = heap.get(objId);
+        Objeto obj = objetoManager.getObjeto(objId);
+
+        // Tratamento especial para o objeto 'io' e método 'print'
+        if (obj == ioObject && methodName.equals("print")) {
+            int value = stack.pop(); // Obter o valor a ser impresso
+            System.out.println(value);
+            // O método 'print' retorna 0
+            stack.push(0);
+            return;
+        }
+
         if (obj == null) {
             System.err.println("Objeto não encontrado: " + objId);
             System.exit(1);
@@ -212,27 +288,40 @@ public class Interpreter {
         }
 
         Map<String, Object> methodVars = new HashMap<>();
-        methodVars.putAll(vars); // Permite acesso às variáveis do escopo atual
-
         // Inicializar variáveis locais do método
         for (String var : method.getVars()) {
             methodVars.put(var, 0);
         }
 
-        // Criar novo frame
-        callStack.push(new Frame(vars, obj));
+        // Obter parâmetros
+        List<String> params = method.getParams();
+        Map<String, Object> paramsMap = new HashMap<>();
+        for (int j = params.size() - 1; j >= 0; j--) {
+            int value = stack.pop();
+            paramsMap.put(params.get(j), value);
+        }
+
+        // Adicionar parâmetros às variáveis do método
+        methodVars.putAll(paramsMap);
+
+        // Definir 'self' para o objeto
+        Objeto originalSelf = obj;
+        callStack.push(new Frame(vars, self));
 
         // Executar instruções do método
-        executeInstructions(method.getInstructions(), methodVars, obj);
+        executeInstructions(method.getInstructions(), methodVars, originalSelf);
 
         // Remover frame
         callStack.pop();
+
+        // Após o 'ret', o valor de retorno deve estar no topo da pilha
     }
 
     private Method findMethod(Objeto obj, String methodName) {
         Objeto currentObj = obj;
         while (currentObj != null) {
-            Method method = currentObj.getClasse().getMethod(methodName);
+            Classe classe = currentObj.getClasse();
+            Method method = classe.getMethod(methodName);
             if (method != null) {
                 return method;
             }
@@ -255,6 +344,42 @@ public class Interpreter {
         return currentIndex;
     }
 
+    private int handleElse(String[] parts, List<String> instructions, int currentIndex) {
+        int skipCount = Integer.parseInt(parts[1]);
+        // Pular instruções se a condição original foi verdadeira
+        return currentIndex + skipCount;
+    }
+
+    private void handleComparison(String opcode) {
+        int b = stack.pop();
+        int a = stack.pop();
+        boolean result;
+        switch (opcode) {
+            case "eq":
+                result = (a == b);
+                break;
+            case "ne":
+                result = (a != b);
+                break;
+            case "gt":
+                result = (a > b);
+                break;
+            case "ge":
+                result = (a >= b);
+                break;
+            case "lt":
+                result = (a < b);
+                break;
+            case "le":
+                result = (a <= b);
+                break;
+            default:
+                result = false;
+                break;
+        }
+        stack.push(result ? 1 : 0);
+    }
+
     private void garbageCollect() {
         // Implementação simplificada do coletor de lixo mark-and-sweep
         // Alterna a cor a cada execução
@@ -274,19 +399,19 @@ public class Interpreter {
 
         // Marcar objetos acessíveis a partir da pilha de operandos
         for (Integer value : stack) {
-            if (heap.containsKey(value)) {
-                markObject(heap.get(value), reachable);
+            if (objetoManager.getObjeto(value) != null) {
+                markObject(objetoManager.getObjeto(value), reachable);
             }
         }
 
         // Coletar objetos não alcançáveis
-        heap.entrySet().removeIf(entry -> !reachable.contains(entry.getKey()));
+        objetoManager.removeUnreachableObjects(reachable);
     }
 
     private void markFromVariables(Map<String, Object> vars, Set<Integer> reachable) {
         for (Object value : vars.values()) {
-            if (value instanceof Integer && heap.containsKey((Integer) value)) {
-                markObject(heap.get((Integer) value), reachable);
+            if (value instanceof Integer && objetoManager.getObjeto((Integer) value) != null) {
+                markObject(objetoManager.getObjeto((Integer) value), reachable);
             }
         }
     }
@@ -297,8 +422,8 @@ public class Interpreter {
         }
         reachable.add(obj.getId());
         for (Object value : obj.getAttributes().values()) {
-            if (value instanceof Integer && heap.containsKey((Integer) value)) {
-                markObject(heap.get((Integer) value), reachable);
+            if (value instanceof Integer && objetoManager.getObjeto((Integer) value) != null) {
+                markObject(objetoManager.getObjeto((Integer) value), reachable);
             }
         }
         if (obj.getPrototype() != null) {

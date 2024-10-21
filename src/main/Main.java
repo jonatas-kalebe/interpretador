@@ -1,8 +1,8 @@
 package main;
 
-import util.Parser;
 import entidades.Program;
 import entidades.Interpreter;
+import util.Parser;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +18,7 @@ public class Main {
 
         String inputFileName = args[0];
 
+        // Ler o arquivo de entrada
         String code;
         try {
             code = Files.readString(Path.of(inputFileName));
@@ -27,9 +28,11 @@ public class Main {
             return;
         }
 
+        // Analisar o código e construir o programa
         Parser parser = new Parser();
         Program program = parser.parse(code);
 
+        // Executar o programa
         Interpreter interpreter = new Interpreter(program);
         interpreter.execute();
     }

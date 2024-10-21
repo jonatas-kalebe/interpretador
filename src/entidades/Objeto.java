@@ -11,14 +11,11 @@ public class Objeto {
     private final Classe classe;
     private final Map<String, Object> atributos;
     private Objeto prototype;
-    private boolean marked;
 
     public Objeto(Classe classe) {
         this.id = ID_GENERATOR.getAndIncrement();
         this.classe = classe;
         this.atributos = new HashMap<>();
-        this.prototype = null;
-        this.marked = false;
 
         // Inicializar atributos
         for (String attr : classe.getAtributos()) {
@@ -27,6 +24,7 @@ public class Objeto {
 
         // Atributo especial _prototype
         atributos.put("_prototype", null);
+        this.prototype = null;
     }
 
     public int getId() {
@@ -43,6 +41,13 @@ public class Objeto {
 
     public Object getAttribute(String name) {
         if (atributos.containsKey(name)) {
+            if (name.equals("_prototype")) {
+                if (this.prototype != null) {
+                    return this.prototype.getId();
+                } else {
+                    return null;
+                }
+            }
             return atributos.get(name);
         } else if (prototype != null) {
             return prototype.getAttribute(name);
@@ -54,26 +59,19 @@ public class Objeto {
     public void setAttribute(String name, Object value) {
         if (atributos.containsKey(name)) {
             atributos.put(name, value);
-        } else if (prototype != null) {
-            prototype.setAttribute(name, value);
+            if (name.equals("_prototype")) {
+                if (value instanceof Integer) {
+                    this.prototype = ObjetoManager.getInstance().getObjeto((Integer) value);
+                } else {
+                    this.prototype = null;
+                }
+            }
         } else {
             atributos.put(name, value);
-        }
-
-        if (name.equals("_prototype") && value instanceof Integer) {
-            this.prototype = (Objeto) value;
         }
     }
 
     public Objeto getPrototype() {
         return prototype;
-    }
-
-    public boolean isMarked() {
-        return marked;
-    }
-
-    public void setMarked(boolean marked) {
-        this.marked = marked;
     }
 }

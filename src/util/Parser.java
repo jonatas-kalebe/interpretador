@@ -37,8 +37,8 @@ public class Parser {
                     mainVars.addAll(vars);
                 }
             } else if (line.startsWith("method")) {
-                String methodName = line.substring(6).trim().split("\\(")[0].trim();
-                currentMethod = new Method(methodName);
+                String methodDeclaration = line.substring(6).trim();
+                currentMethod = new Method(methodDeclaration);
                 currentClass.addMethod(currentMethod);
             } else if (line.equals("end-method")) {
                 currentMethod = null;
@@ -46,6 +46,8 @@ public class Parser {
                 inMain = true;
             } else if (line.equals("end")) {
                 inMain = false;
+            } else if (line.equals("begin") || line.equals("end-if") || line.equals("else") || line.equals("then")) {
+                // Ignorar palavras-chave estruturais
             } else {
                 if (currentMethod != null) {
                     currentMethod.addInstruction(line);
