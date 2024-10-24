@@ -1,6 +1,9 @@
 package parser;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ClassDef {
     private String className;
@@ -19,7 +22,7 @@ public class ClassDef {
         this.attributes.add(attribute);
     }
 
-    public  MethodDef getMethodElement(String methodName) {
+    public MethodDef getMethodElement(String methodName) {
         return methods.get(methodName);
     }
 

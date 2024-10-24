@@ -5,7 +5,10 @@ import valores.IntValue;
 import valores.ObjectValue;
 import valores.Value;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ObjectInstance {
     private int id;
@@ -27,12 +30,12 @@ public class ObjectInstance {
 
     public Value getAttribute(String name, Interpreter interpreter) {
         if (name.equals("_prototype")) {
-        if (prototypeId != -1) {
-            return new ObjectValue(prototypeId);
-        } else {
-            throw new RuntimeException("Prototype not set for this object.");
-        }
-    } else if (attributes.containsKey(name)) {
+            if (prototypeId != -1) {
+                return new ObjectValue(prototypeId);
+            } else {
+                throw new RuntimeException("Prototype not set for this object.");
+            }
+        } else if (attributes.containsKey(name)) {
             return attributes.get(name);
         } else if (prototypeId != -1) {
             ObjectInstance prototype = interpreter.getElementHeap(prototypeId);

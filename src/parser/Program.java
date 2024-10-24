@@ -1,6 +1,7 @@
 package parser;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Program {
     private Map<String, ClassDef> classes = new HashMap<>();

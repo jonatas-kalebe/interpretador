@@ -5,7 +5,10 @@ import parser.MainFunction;
 import parser.MethodDef;
 import valores.Value;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Frame {
     private List<Instruction> instructions;

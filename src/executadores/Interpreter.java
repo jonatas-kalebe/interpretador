@@ -10,7 +10,9 @@ import util.IOObject;
 import valores.Value;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 public class Interpreter {
     private Program program;
@@ -66,7 +68,7 @@ public class Interpreter {
             }
         }
         if (objInstance.getPrototypeId() != -1) {
-            ObjectInstance prototype =this.getElementHeap(objInstance.getPrototypeId());
+            ObjectInstance prototype = this.getElementHeap(objInstance.getPrototypeId());
             return findMethod(prototype, methodName);
         }
         return null;

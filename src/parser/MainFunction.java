@@ -2,7 +2,8 @@ package parser;
 
 import instrucoes.Instruction;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFunction {
     private List<String> localVariables = new ArrayList<>();

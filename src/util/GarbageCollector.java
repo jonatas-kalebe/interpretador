@@ -6,7 +6,8 @@ import executadores.ObjectInstance;
 import valores.ObjectValue;
 import valores.Value;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
 
 public class GarbageCollector {
     private final Interpreter interpreter;
@@ -37,7 +38,7 @@ public class GarbageCollector {
     private void markValue(Value value, String color) {
         if (value instanceof ObjectValue) {
             int objectId = ((ObjectValue) value).getObjectId();
-            ObjectInstance objInstance = interpreter.getElementHeap( objectId);
+            ObjectInstance objInstance = interpreter.getElementHeap(objectId);
             if (objInstance != null && !objInstance.getColor().equals(color)) {
                 objInstance.setColor(color);
 

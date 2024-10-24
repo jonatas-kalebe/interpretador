@@ -1,9 +1,13 @@
 package parser;
+
 import instrucoes.*;
 import instrucoes.If.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Parser {
 
@@ -69,7 +73,7 @@ public class Parser {
                     if (line.equals("begin")) {
                         continue;
                     }
-                    if (line.contains("end")){
+                    if (line.contains("end")) {
                         continue;
                     }
 
@@ -103,7 +107,7 @@ public class Parser {
                 if (line.equals("begin")) {
                     continue;
                 }
-                if (line.contains("end")){
+                if (line.contains("end")) {
                     continue;
                 }
 
