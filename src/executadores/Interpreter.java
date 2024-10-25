@@ -43,7 +43,9 @@ public class Interpreter {
             Frame currentFrame = callStack.peek();
             if (currentFrame.hasNextInstruction()) {
                 Instruction instr = currentFrame.nextInstruction();
-                instr.execute(this);
+                if (instr!=null){
+                    instr.execute(this);
+                }
                 instructionCount++;
                 if (instructionCount % 5 == 0) {
                     runGarbageCollector();

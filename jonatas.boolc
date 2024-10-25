@@ -1,21 +1,35 @@
-main()
-vars a, b, max
+class MathOps
+vars
+method max(x,  y)
+vars
 begin
-const 10
-store a
-const 20
-store b
-load a
-load b
-lt
+load x
+load y
+gt
 if 2
-load a
-store max
+load x
+ret
 else 2
-load b
-store max
+load y
+ret
 end-if
-load max
+end-method
+end-class
+main()
+vars a, b, m, math
+begin
+const 35
+store a
+const 25
+store b
+new MathOps
+store math
+load a
+load b
+load math
+call max
+store m
+load m
 load io
 call print
 pop
