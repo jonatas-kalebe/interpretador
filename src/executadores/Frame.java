@@ -35,7 +35,7 @@ public class Frame {
         if (variables.containsKey(name)) {
             return variables.get(name);
         }
-        throw new RuntimeException("Variable not found: " + name);
+        return null;
     }
 
     public void putVariableElement(String name, Value value) {

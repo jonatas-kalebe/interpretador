@@ -4,7 +4,7 @@ import executadores.Interpreter;
 import instrucoes.Instruction;
 
 public class ElseInstruction extends Instruction {
-    int skipCount;
+    private int skipCount;
 
     public ElseInstruction(int skipCount) {
         this.skipCount = skipCount;
@@ -12,6 +12,8 @@ public class ElseInstruction extends Instruction {
 
     @Override
     public void execute(Interpreter interpreter) {
-        interpreter.currentFrame().incrementInstructionPointer(skipCount);
+        if (interpreter.isIfConditionTrue()) {
+            interpreter.currentFrame().incrementInstructionPointer(skipCount);
+        }
     }
 }

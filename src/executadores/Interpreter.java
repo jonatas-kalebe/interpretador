@@ -23,6 +23,7 @@ public class Interpreter {
     private int instructionCount = 0;
     private boolean gcColorFlag = true;
     private IOObject ioObject;
+    private boolean ifConditionTrue;
 
     public Interpreter() {
         ioObject = new IOObject(0);
@@ -128,6 +129,14 @@ public class Interpreter {
 
     public IOObject getIoObject() {
         return ioObject;
+    }
+
+    public void setIfConditionTrue(boolean condition) {
+        this.ifConditionTrue = condition;
+    }
+
+    public boolean isIfConditionTrue() {
+        return ifConditionTrue;
     }
 
 }

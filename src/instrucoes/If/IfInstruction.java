@@ -18,10 +18,10 @@ public class IfInstruction extends Instruction {
         if (condition instanceof BooleanValue) {
             if (!((BooleanValue) condition).isValue()) {
                 interpreter.currentFrame().incrementInstructionPointer(skipCount);
+                interpreter.setIfConditionTrue(false);
+            } else {
+                interpreter.setIfConditionTrue(true);
             }
-        } else {
-            throw new RuntimeException("If condition is not boolean");
         }
     }
 }
-
