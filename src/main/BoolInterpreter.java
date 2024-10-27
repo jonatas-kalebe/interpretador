@@ -1,6 +1,6 @@
 package main;
 
-import executadores.Interpreter;
+import interpretador.executadores.Interpreter;
 
 public class BoolInterpreter {
     public static void main(String[] args) {

@@ -1,9 +1,9 @@
 package main;
 
-import entidades.*;
-import estruturas.MainStatements;
-import util.RegexUtil;
-import util.StatementsParser;
+import compilador.entidades.*;
+import compilador.estruturas.MainStatements;
+import compilador.util.RegexUtil;
+import compilador.util.StatementsParser;
 
 import java.io.IOException;
 import java.nio.file.Files;
