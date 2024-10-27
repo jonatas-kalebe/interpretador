@@ -10,8 +10,8 @@ import java.util.List;
 public class MethodCall implements IfStatements, BodyStatements, MainStatements, Arguments {
     private final Name objeto;
     private final Name metodo;
-    private List<Name> parametros;
     private final boolean isAtribuicao;
+    private List<Name> parametros;
 
     public MethodCall(Name objeto, Name metodo, boolean isAtribuicao) {
         this.isAtribuicao = isAtribuicao;
@@ -28,15 +28,15 @@ public class MethodCall implements IfStatements, BodyStatements, MainStatements,
 
     @Override
     public String compileCode() {
-        StringBuilder parametrosLoad= new StringBuilder();
-        if(parametros!=null){
+        StringBuilder parametrosLoad = new StringBuilder();
+        if (parametros != null) {
             for (Name parametro : parametros) {
                 parametrosLoad.append(parametro.compileCode());
             }
         }
-        if(!isAtribuicao){
-            return parametrosLoad +objeto.compileCode()+metodo.compileCode()+"pop\n";
+        if (!isAtribuicao) {
+            return parametrosLoad + objeto.compileCode() + metodo.compileCode() + "pop\n";
         }
-        return parametrosLoad +objeto.compileCode()+metodo.compileCode();
+        return parametrosLoad + objeto.compileCode() + metodo.compileCode();
     }
 }

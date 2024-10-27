@@ -1,13 +1,13 @@
 package interpretador.executadores;
 
-import interpretador.entidades.ObjectInstance;
-import interpretador.instrucoes.Instruction;
 import interpretador.entidades.ClassDef;
 import interpretador.entidades.MethodDef;
-import interpretador.util.Parser;
+import interpretador.entidades.ObjectInstance;
 import interpretador.entidades.Program;
+import interpretador.instrucoes.Instruction;
 import interpretador.util.GarbageCollector;
 import interpretador.util.IOObject;
+import interpretador.util.Parser;
 import interpretador.valores.Value;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class Interpreter {
             Frame currentFrame = callStack.peek();
             if (currentFrame.hasNextInstruction()) {
                 Instruction instr = currentFrame.nextInstruction();
-                if (instr!=null){
+                if (instr != null) {
                     instr.execute(this);
                 }
                 instructionCount++;
@@ -134,12 +134,12 @@ public class Interpreter {
         return ioObject;
     }
 
-    public void setIfConditionTrue(boolean condition) {
-        this.ifConditionTrue = condition;
-    }
-
     public boolean isIfConditionTrue() {
         return ifConditionTrue;
+    }
+
+    public void setIfConditionTrue(boolean condition) {
+        this.ifConditionTrue = condition;
     }
 
 }

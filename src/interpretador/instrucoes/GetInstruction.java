@@ -1,7 +1,7 @@
 package interpretador.instrucoes;
 
-import interpretador.executadores.Interpreter;
 import interpretador.entidades.ObjectInstance;
+import interpretador.executadores.Interpreter;
 import interpretador.valores.ObjectValue;
 import interpretador.valores.Value;
 

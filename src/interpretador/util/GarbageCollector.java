@@ -1,8 +1,8 @@
 package interpretador.util;
 
+import interpretador.entidades.ObjectInstance;
 import interpretador.executadores.Frame;
 import interpretador.executadores.Interpreter;
-import interpretador.entidades.ObjectInstance;
 import interpretador.valores.ObjectValue;
 import interpretador.valores.Value;
 

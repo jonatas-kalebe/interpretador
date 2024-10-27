@@ -15,7 +15,7 @@ public class MethodBody {
         StringBuilder code = new StringBuilder();
         code.append("begin\n");
 
-        if(statements != null){
+        if (statements != null) {
             for (BodyStatements statement : statements) {
                 code.append(statement.compileCode());
             }

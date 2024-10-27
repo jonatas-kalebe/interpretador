@@ -43,7 +43,7 @@ public class StatementsParser {
             } else if (line.contains("=")) {
                 statements.add(processLineAttribution(line));
             } else if (line.contains("(") && !line.contains("main")) {
-                statements.add(processMethodCall(line,false));
+                statements.add(processMethodCall(line, false));
             }
         }
         return statements;
@@ -71,7 +71,7 @@ public class StatementsParser {
             } else if (line.contains("=")) {
                 statements.add(processLineAttribution(line));
             } else if (line.contains("(") && !line.contains("main")) {
-                statements.add(processMethodCall(line,false));
+                statements.add(processMethodCall(line, false));
             }
         }
         return new MethodBody(statements);
@@ -121,7 +121,7 @@ public class StatementsParser {
         } else if (line.contains("=")) {
             return processLineAttribution(line);
         } else if (line.contains("(") && !line.contains("main")) {
-            return processMethodCall(line,false);
+            return processMethodCall(line, false);
         } else {
             throw new IllegalArgumentException("Linha irreconhecível: " + line);
         }
@@ -157,7 +157,7 @@ public class StatementsParser {
                 }
             }
         }
-        return new MethodCall(objectName, methodName, parameters,isAtribuicao);
+        return new MethodCall(objectName, methodName, parameters, isAtribuicao);
     }
 
     private static Name parseParameter(String param) {
@@ -216,7 +216,7 @@ public class StatementsParser {
             Name newObject = new Name(className, NOVO_OBJETO);
             return new Attribution(variable, newObject);
         } else if (rightSide.contains("(")) {
-            MethodCall methodCall = processMethodCall(rightSide,true);
+            MethodCall methodCall = processMethodCall(rightSide, true);
             return new Attribution(variable, methodCall);
         } else {
             Name value = parseExpressionOperand(rightSide);
@@ -237,7 +237,7 @@ public class StatementsParser {
             String className = operand.substring(NOVO_OBJETO.length()).trim();
             return new Name(className, NOVO_OBJETO);
         } else if (operand.contains("(")) {
-            MethodCall methodCall = processMethodCall(operand,true);
+            MethodCall methodCall = processMethodCall(operand, true);
             return new Name(methodCall.compileCode(), "callMethod");
         } else {
             return getNameObject(operand, OBTER_VALOR, CARREGAR_VARIAVEL);

@@ -1,8 +1,8 @@
 package interpretador.executadores;
 
-import interpretador.instrucoes.Instruction;
 import interpretador.entidades.MainFunction;
 import interpretador.entidades.MethodDef;
+import interpretador.instrucoes.Instruction;
 import interpretador.valores.Value;
 
 import java.util.ArrayList;

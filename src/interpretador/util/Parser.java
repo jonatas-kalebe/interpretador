@@ -1,11 +1,11 @@
 package interpretador.util;
 
-import interpretador.instrucoes.*;
-import interpretador.instrucoes.If.*;
 import interpretador.entidades.ClassDef;
 import interpretador.entidades.MainFunction;
 import interpretador.entidades.MethodDef;
 import interpretador.entidades.Program;
+import interpretador.instrucoes.*;
+import interpretador.instrucoes.If.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

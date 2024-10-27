@@ -28,7 +28,6 @@ public class Comparator {
     }
 
 
-
     public Map<String, String> getComparators() {
         return comparadores;
     }

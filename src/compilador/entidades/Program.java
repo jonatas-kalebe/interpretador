@@ -17,7 +17,7 @@ public class Program {
 
     public String compileCode() {
         StringBuilder code = new StringBuilder();
-        if(classesBlock != null){
+        if (classesBlock != null) {
             for (ClassesBlock classBlock : classesBlock) {
                 code.append(classBlock.compileCode());
             }

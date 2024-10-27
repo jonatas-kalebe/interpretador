@@ -11,8 +11,8 @@ public class If implements BodyStatements, MainStatements {
     private final Name variavel1;
     private final Name variavel2;
     private final List<IfStatements> ifStatements;
-    private List<IfStatements> ifStatementselse;
     private final boolean isElse;
+    private List<IfStatements> ifStatementselse;
 
     public If(String comparador, Name variavel1, Name variavel2, List<IfStatements> ifStatements, boolean isElse) {
         this.comparador = comparador;
@@ -21,6 +21,7 @@ public class If implements BodyStatements, MainStatements {
         this.ifStatements = ifStatements;
         this.isElse = isElse;
     }
+
     public If(String comparador, Name variavel1, Name variavel2, List<IfStatements> ifStatements, boolean isElse, List<IfStatements> ifStatementselse) {
         this.comparador = comparador;
         this.variavel1 = variavel1;
@@ -35,29 +36,29 @@ public class If implements BodyStatements, MainStatements {
         StringBuilder ifBlockCode = new StringBuilder();
         StringBuilder elseBlockCode = new StringBuilder();
 
-        if(ifStatements!=null){
+        if (ifStatements != null) {
             for (IfStatements ifStatement : ifStatements) {
                 ifBlockCode.append(ifStatement.compileCode());
             }
         }
 
-        if(ifStatementselse!=null){
+        if (ifStatementselse != null) {
             for (IfStatements elseStatement : ifStatementselse) {
                 elseBlockCode.append(elseStatement.compileCode());
             }
         }
         int lines;
 
-        if(ifBlockCode.isEmpty()){
-            lines=0;
-        }else {
-            lines= ifBlockCode.toString().split("\n").length;
+        if (ifBlockCode.isEmpty()) {
+            lines = 0;
+        } else {
+            lines = ifBlockCode.toString().split("\n").length;
         }
         int linesElse;
-        if(elseBlockCode.isEmpty()){
-            linesElse=0;
-        }else {
-            linesElse= elseBlockCode.toString().split("\n").length;
+        if (elseBlockCode.isEmpty()) {
+            linesElse = 0;
+        } else {
+            linesElse = elseBlockCode.toString().split("\n").length;
         }
         StringBuilder code = new StringBuilder();
         code.append(variavel1.compileCode()).append(variavel2.compileCode()).append(Comparator.getComparator(comparador)).append("if ").append(lines).append("\n").append(ifBlockCode);

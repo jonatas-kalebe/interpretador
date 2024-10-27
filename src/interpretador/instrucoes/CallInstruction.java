@@ -1,9 +1,9 @@
 package interpretador.instrucoes;
 
+import interpretador.entidades.MethodDef;
+import interpretador.entidades.ObjectInstance;
 import interpretador.executadores.Frame;
 import interpretador.executadores.Interpreter;
-import interpretador.entidades.ObjectInstance;
-import interpretador.entidades.MethodDef;
 import interpretador.valores.IntValue;
 import interpretador.valores.ObjectValue;
 import interpretador.valores.Value;

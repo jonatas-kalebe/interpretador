@@ -36,31 +36,31 @@ public class Name implements Arguments {
         return nome;
     }
 
-    private String load(){
+    private String load() {
         return String.format("load %s%n", nome);
     }
 
-    private String set(){
+    private String set() {
         return String.format("load %s%nset %s%n", nomeObjeto, nome);
     }
 
-    private String get(){
+    private String get() {
         return String.format("load %s%nget %s%n", nomeObjeto, nome);
     }
 
-    private String store(){
+    private String store() {
         return String.format("store %s%n", nome);
     }
 
-    private String call(){
+    private String call() {
         return String.format("call %s%n", nome);
     }
 
-    private String novo(){
+    private String novo() {
         return String.format("new %s%n", nome);
     }
 
-    private String constante(){
+    private String constante() {
         return String.format("const %s%n", nome);
     }
 }

@@ -34,6 +34,7 @@ public class RegexUtil {
     public static String extractMethodBody(String code) {
         return extractMatches(IDENTIFY_METHOD_BODY, code).getFirst();
     }
+
     public static List<String> extractIfs(String code) {
         return extractMatches(IDENTIFY_IF, code);
     }
@@ -45,7 +46,7 @@ public class RegexUtil {
     }
 
     public static List<String> extractVars(String code) {
-        String linesVar=findLinesStatingWith(code, "vars");
+        String linesVar = findLinesStatingWith(code, "vars");
 
         List<String> varsList = new ArrayList<>();
         String[] lines = linesVar.split("\n");
@@ -53,7 +54,7 @@ public class RegexUtil {
             line = line.replace("vars", "").trim();
             String[] vars = line.split(",");
             for (String variavel : vars) {
-                if (!variavel.trim().isEmpty()){
+                if (!variavel.trim().isEmpty()) {
                     varsList.add(variavel.trim());
                 }
 
