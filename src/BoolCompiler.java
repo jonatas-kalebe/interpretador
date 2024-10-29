@@ -1,5 +1,3 @@
-package main;
-
 import compilador.entidades.*;
 import compilador.estruturas.MainStatements;
 import compilador.util.RegexUtil;

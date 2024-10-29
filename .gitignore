@@ -14,7 +14,7 @@ out/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-./jonatas.boolc
+jonatas.boolc
 
 ### NetBeans ###
 /nbproject/private/

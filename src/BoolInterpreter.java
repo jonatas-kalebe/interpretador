@@ -1,5 +1,3 @@
-package main;
-
 import interpretador.executadores.Interpreter;
 
 public class BoolInterpreter {
