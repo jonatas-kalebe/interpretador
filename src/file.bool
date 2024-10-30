@@ -1,0 +1,36 @@
+class OperacoesMatematicas
+ vars resultado
+
+method multiplicar(a, b)
+begin
+self.resultado = a * b
+return self.resultado
+end-method
+
+method dividir(a, b)
+begin
+if b ne 0 then
+    self.resultado = a / b
+else
+    self.resultado = 0
+end-if
+return self.resultado
+end-method
+
+method getResultado()
+begin
+return self.resultado
+end-method
+end-class
+
+main()
+vars operacao, result
+begin
+operacao = new OperacoesMatematicas
+operacao.multiplicar(6, 7)
+result = operacao.getResultado()
+io.print(result)
+operacao.dividir(42, 7)
+result = operacao.getResultado()
+io.print(result)
+end

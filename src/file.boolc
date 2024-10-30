@@ -1,0 +1,70 @@
+class OperacoesMatematicas
+vars resultado
+method multiplicar(a,  b)
+begin
+load a
+load b
+mul
+load self
+set resultado
+load self
+get resultado
+ret
+end-method
+method dividir(a,  b)
+begin
+load b
+const 0
+ne
+if 5
+load a
+load b
+div
+load self
+set resultado
+else 3
+const 0
+load self
+set resultado
+end-if
+load self
+get resultado
+ret
+end-method
+method getResultado()
+begin
+load self
+get resultado
+ret
+end-method
+end-class
+main()
+vars operacao, result
+begin
+new OperacoesMatematicas
+store operacao
+const 6
+const 7
+load operacao
+call multiplicar
+pop
+load operacao
+call getResultado
+store result
+load result
+load io
+call print
+pop
+const 42
+const 7
+load operacao
+call dividir
+pop
+load operacao
+call getResultado
+store result
+load result
+load io
+call print
+pop
+end
