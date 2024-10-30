@@ -35,7 +35,7 @@ A execução dos programas também deve ser realizada dentro do diretório `src`
   java BoolInterpreter file.boolc
   ```
 
-> **Nota:** Lembre-se de estar no diretório `src` ao compilar e executar os comandos.
+> **Nota:** Foi feito visando estar no diretório `src` ao compilar e executar os comandos.
 
 ---
 
