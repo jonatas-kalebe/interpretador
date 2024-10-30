@@ -122,9 +122,8 @@ public class StatementsParser {
             return processLineAttribution(line);
         } else if (line.contains("(") && !line.contains("main")) {
             return processMethodCall(line, false);
-        } else {
-            throw new IllegalArgumentException("Linha irreconhecível: " + line);
         }
+        return null;
     }
 
     private static Name parseName(String token) {
@@ -140,9 +139,6 @@ public class StatementsParser {
         String[] split = line.split("\\(");
         String methodCallPart = split[0].trim();
         String[] methodParts = methodCallPart.split("\\.");
-        if (methodParts.length != 2) {
-            throw new IllegalArgumentException("Chamada de método inválida: " + line);
-        }
 
         Name objectName = new Name(methodParts[0].trim(), CARREGAR_VARIAVEL);
         Name methodName = new Name(methodParts[1].trim(), CHAMAR_METODO);
@@ -188,9 +184,6 @@ public class StatementsParser {
 
     private static Attribution processLineAttribution(String line) {
         String[] split = line.split("=");
-        if (split.length != 2) {
-            throw new IllegalArgumentException("Atribuição inválida: " + line);
-        }
 
         String leftSide = split[0].trim();
         String rightSide = split[1].trim();
@@ -201,9 +194,6 @@ public class StatementsParser {
         for (String operator : operators) {
             if (rightSide.matches(".*" + operator + ".*")) {
                 String[] operands = rightSide.split(operator);
-                if (operands.length != 2) {
-                    throw new IllegalArgumentException("Expressão inválida na atribuição: " + line);
-                }
                 Name operand1 = parseExpressionOperand(operands[0].trim());
                 Name operand2 = parseExpressionOperand(operands[1].trim());
                 String opSymbol = operator.replace("\\", "");

@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ObjectInstance {
-    private int id;
-    private ClassDef classDef;
-    private Map<String, Value> attributes = new HashMap<>();
+    private final int id;
+    private final ClassDef classDef;
+    private final Map<String, Value> attributes = new HashMap<>();
     private int prototypeId = -1;
     private String color;
 
@@ -30,39 +30,25 @@ public class ObjectInstance {
 
     public Value getAttribute(String name, Interpreter interpreter) {
         if (name.equals("_prototype")) {
-            if (prototypeId != -1) {
-                return new ObjectValue(prototypeId);
-            } else {
-                throw new RuntimeException("Prototype not set for this object.");
-            }
+            return new ObjectValue(prototypeId);
         } else if (attributes.containsKey(name)) {
             return attributes.get(name);
         } else if (prototypeId != -1) {
             ObjectInstance prototype = interpreter.getElementHeap(prototypeId);
             return prototype.getAttribute(name, interpreter);
-        } else {
-            throw new RuntimeException("Attribute not found: " + name);
         }
+        return null;
     }
 
     public void setAttribute(String name, Value value, Interpreter interpreter) {
         if (name.equals("_prototype")) {
-            if (value instanceof ObjectValue) {
-                int prototypeObjectId = ((ObjectValue) value).getObjectId();
-                if (prototypeObjectId == this.id) {
-                    throw new RuntimeException("An object cannot be its own prototype.");
-                }
-                this.prototypeId = prototypeObjectId;
-            } else {
-                throw new RuntimeException("_prototype must be assigned an object reference.");
-            }
+            this.prototypeId = ((ObjectValue) value).getObjectId();
+
         } else if (attributes.containsKey(name)) {
             attributes.put(name, value);
         } else if (prototypeId != -1) {
             ObjectInstance prototype = interpreter.getElementHeap(prototypeId);
             prototype.setAttribute(name, value, interpreter);
-        } else {
-            throw new RuntimeException("Attribute not found: " + name);
         }
     }
 

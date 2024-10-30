@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Frame {
-    private List<Instruction> instructions;
-    private Map<String, Value> variables = new HashMap<>();
+    private final List<Instruction> instructions;
+    private final Map<String, Value> variables = new HashMap<>();
     private int instructionPointer = 0;
 
     public Frame(MethodDef method) {

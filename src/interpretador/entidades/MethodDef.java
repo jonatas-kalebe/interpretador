@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MethodDef {
-    private String methodName;
+    private final String methodName;
     private List<String> parameters = new ArrayList<>();
-    private List<String> localVariables = new ArrayList<>();
-    private List<Instruction> instructions = new ArrayList<>();
+    private final List<String> localVariables = new ArrayList<>();
+    private final List<Instruction> instructions = new ArrayList<>();
 
     public MethodDef(String methodName) {
         this.methodName = methodName;

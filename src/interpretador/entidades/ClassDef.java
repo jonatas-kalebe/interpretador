@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ClassDef {
-    private String className;
-    private List<String> attributes = new ArrayList<>();
-    private Map<String, MethodDef> methods = new HashMap<>();
+    private final String className;
+    private final List<String> attributes = new ArrayList<>();
+    private final Map<String, MethodDef> methods = new HashMap<>();
 
     public ClassDef(String className) {
         this.className = className;

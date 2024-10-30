@@ -15,9 +15,7 @@ public class NewInstruction extends Instruction {
     @Override
     public void execute(Interpreter interpreter) {
         ClassDef classDef = interpreter.getProgram().getClassElement(className);
-        if (classDef == null) {
-            throw new RuntimeException("Class not found: " + className);
-        }
+
         int objectId = interpreter.getNextObjectId();
         ObjectInstance objInstance = new ObjectInstance(objectId, classDef);
         interpreter.putElementHeap(objectId, objInstance);

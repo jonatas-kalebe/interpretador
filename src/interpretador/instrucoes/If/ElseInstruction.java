@@ -4,7 +4,7 @@ import interpretador.executadores.Interpreter;
 import interpretador.instrucoes.Instruction;
 
 public class ElseInstruction extends Instruction {
-    private int skipCount;
+    private final int skipCount;
 
     public ElseInstruction(int skipCount) {
         this.skipCount = skipCount;

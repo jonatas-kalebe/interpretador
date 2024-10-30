@@ -18,9 +18,7 @@ public class CallInstruction extends Instruction {
     @Override
     public void execute(Interpreter interpreter) {
         Value objRef = interpreter.popOperandStack();
-        if (!(objRef instanceof ObjectValue)) {
-            throw new RuntimeException("Method call on non-object");
-        }
+
         int objectId = ((ObjectValue) objRef).getObjectId();
 
         if (objectId == 0 && methodName.equals("print")) {
@@ -32,9 +30,6 @@ public class CallInstruction extends Instruction {
 
         ObjectInstance objInstance = interpreter.getElementHeap(objectId);
         MethodDef method = interpreter.findMethod(objInstance, methodName);
-        if (method == null) {
-            throw new RuntimeException("Method not found: " + methodName);
-        }
 
         Frame frame = new Frame(method);
         frame.putVariableElement("self", objRef);

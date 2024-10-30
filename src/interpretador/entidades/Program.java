@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Program {
-    private Map<String, ClassDef> classes = new HashMap<>();
+    private final Map<String, ClassDef> classes = new HashMap<>();
     private MainFunction mainFunction;
 
     public ClassDef getClassElement(String className) {

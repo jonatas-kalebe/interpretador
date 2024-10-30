@@ -17,13 +17,13 @@ import java.util.Stack;
 
 public class Interpreter {
     private Program program;
-    private Stack<Value> operandStack = new Stack<>();
-    private Stack<Frame> callStack = new Stack<>();
-    private Map<Integer, ObjectInstance> heap = new HashMap<>();
+    private final Stack<Value> operandStack = new Stack<>();
+    private final Stack<Frame> callStack = new Stack<>();
+    private final Map<Integer, ObjectInstance> heap = new HashMap<>();
     private int nextObjectId = 1;
     private int instructionCount = 0;
     private boolean gcColorFlag = true;
-    private IOObject ioObject;
+    private final IOObject ioObject;
     private boolean ifConditionTrue;
 
     public Interpreter() {

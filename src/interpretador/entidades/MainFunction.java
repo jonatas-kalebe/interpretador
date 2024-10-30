@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainFunction {
-    private List<String> localVariables = new ArrayList<>();
-    private List<Instruction> instructions = new ArrayList<>();
+    private final List<String> localVariables = new ArrayList<>();
+    private final List<Instruction> instructions = new ArrayList<>();
 
 
     public void addLocalVariables(String localVariable) {

@@ -6,7 +6,7 @@ import interpretador.valores.ObjectValue;
 import interpretador.valores.Value;
 
 public class SetInstruction extends Instruction {
-    private String attributeName;
+    private final String attributeName;
 
     public SetInstruction(String attributeName) {
         this.attributeName = attributeName;
@@ -18,16 +18,8 @@ public class SetInstruction extends Instruction {
 
         Value valueToAssign = interpreter.popOperandStack();
 
-        if (!(objectValue instanceof ObjectValue)) {
-            throw new RuntimeException("SetInstruction: Expected an object reference on the stack.");
-        }
-
         int objectId = ((ObjectValue) objectValue).getObjectId();
         ObjectInstance objectInstance = interpreter.getElementHeap(objectId);
-
-        if (objectInstance == null) {
-            throw new RuntimeException("SetInstruction: Object with ID " + objectId + " not found.");
-        }
 
         objectInstance.setAttribute(attributeName, valueToAssign, interpreter);
     }

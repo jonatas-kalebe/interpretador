@@ -11,27 +11,18 @@ import java.util.List;
 
 public class BoolCompiler {
     public static void main(String[] args) throws IOException {
-        if (args.length != 2) {
-            throw new IllegalArgumentException("Uso: java BoolCompiler <arquivo_entrada>.bool <arquivo_saida>.boolc");
-        }
 
         String inputFileName = args[0];
         String outputFileName = args[1];
 
         String code;
-        try {
-            code = Files.readString(Path.of(inputFileName));
-        } catch (IOException e) {
-            throw new IOException("Erro ao ler o arquivo de entrada: " + e.getMessage());
-        }
+
+        code = Files.readString(Path.of(inputFileName));
 
         String finalCode = compileBoolCode(code);
 
-        try {
-            Files.writeString(Path.of(outputFileName), finalCode);
-        } catch (IOException e) {
-            throw new IOException("Erro ao escrever o arquivo de saída: " + e.getMessage());
-        }
+        Files.writeString(Path.of(outputFileName), finalCode);
+
     }
 
     private static String compileBoolCode(String code) {
